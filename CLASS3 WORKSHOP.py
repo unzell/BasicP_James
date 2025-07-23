@@ -10,6 +10,7 @@ def checkBeastHp ():
 
     if wildBeast == 0:
         print("MISSION完了、これから帰還する。")
+        wildBeast = 150
     elif wildBeast < 0:
         print("you attacked the wildBeast so much that it regained it strenght\nwildBeast regained its strength\nwildBeast gained 20 HP back !")
         wildBeast += 20
@@ -30,6 +31,7 @@ def weaponCode ():
         print("wildBeast's current HP : ",wildBeast)
 
         checkBeastHp()
+
         
     else:
         print("invalid weapon code")
@@ -43,18 +45,18 @@ while keizoku:
     if option == 1:
         回数 = int(input("WILDBEASTを攻撃するの回数 : "))
         for i in range(回数):
-            if i == len(range(回数)) - 1:
+            if i == len(range(回数)) and wildBeast > 0:
                 print("お前の負けだ LOSER")
+                wildBeast = 150
             else:
                 print("The following is the weapon's code and it's damage")
                 print("weapon's damage\nsword : 50\ndagger : 20\nfist : 5")
                 weaponCode()
-        
-
             
             
-
-
-    if option == 2:
+    elif option == 2:
         print("臆病者。がっかりだわ 😒")
         break
+    else:
+        print("invalid input")
+
