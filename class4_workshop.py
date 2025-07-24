@@ -1,7 +1,7 @@
 # ฟังก์ชันแสดงรายชื่อหนังทั้งหมดในระบบ
 def show_movies(movie_list):
-    for movie in movie_list:
-        print(movie["movie_name"],"ราคา",movie["ticket_price"])
+    for idx, movie in enumerate(movie_list, start=1):  
+        print(f"{idx}. {movie['movie_name']} ราคา {movie['ticket_price']}")
 
 
 
@@ -32,9 +32,17 @@ def buy_ticket(movie_list):
     # TODO: 
     # 1. เรียก show_movies เพื่อแสดงรายชื่อหนัง done
     show_movies()
-    # 2. รับค่าตัวเลือกหนังจากผู้ใช้ (1-5)
-    
+    # 2. รับค่าตัวเลือกหนังจากผู้ใช้ (1-5) done
+    def movie_input () :
+        movie_choice = int(input("เลือกตัวเลขของลำดับหนังที่จะดู : "))
+        if movie_choice not in [1,2,3,4,5]:
+            ("ข้อมูลที่กรอกไม่ถูกต้อง, กรุณาเลือกใหม่อีกครั้ง")
+            movie_input()
+        else:
+            return movie_choice 
+    movieChoice = movie_input()
     # 3. รับอายุผู้ใช้
+    userAge = input()
     # 4. ตรวจสอบอายุผ่าน check_age
     #    - ถ้าไม่ผ่าน ให้แสดงข้อความว่าอายุน้อยเกินไปและ return ออกจากฟังก์ชัน
     # 5. ให้ผู้ใช้เลือกเสียงพากย์ (1 = พากย์ไทย, 2 = Soundtrack)
