@@ -12,10 +12,9 @@ def check_age(user_age, age_restriction):
     if age_restriction == "G":
         return True
     else:
-        if user_age >= age_restriction :
+        if user_age >= int(age_restriction) :
             return True
         else :
-            print("อายุน้อยเกินไป")
             return False
 
 
@@ -31,7 +30,7 @@ def calculate_price(base_price, genre):
 def buy_ticket(movie_list):
     # TODO: 
     # 1. เรียก show_movies เพื่อแสดงรายชื่อหนัง done
-    show_movies()
+    show_movies(movie_list)
     # 2. รับค่าตัวเลือกหนังจากผู้ใช้ (1-5) done
     def movie_input () :
         movie_choice = int(input("เลือกตัวเลขของลำดับหนังที่จะดู : "))
@@ -41,13 +40,33 @@ def buy_ticket(movie_list):
         else:
             return movie_choice 
     movieChoice = movie_input()
-    # 3. รับอายุผู้ใช้
-    userAge = input()
-    # 4. ตรวจสอบอายุผ่าน check_age
+    userMovieChoice = movie_list[movieChoice - 1]
+    # 3. รับอายุผู้ใช้ done
+    userAge = int(input("อายุ : "))
+    # 4. ตรวจสอบอายุผ่าน check_age done
+    if not check_age(userAge, userMovieChoice["age_restriction"]):
+        print("อายุน้อยเกินไป")
+        return
     #    - ถ้าไม่ผ่าน ให้แสดงข้อความว่าอายุน้อยเกินไปและ return ออกจากฟังก์ชัน
     # 5. ให้ผู้ใช้เลือกเสียงพากย์ (1 = พากย์ไทย, 2 = Soundtrack)
+    def preferredLanguage () :
+        language = int(input("โปรดเลือกเสียงพากย์ 1 = พากย์ไทย | 2 = Soundtrack : "))
+        if language not in [1,2]:
+            ("ข้อมูลที่กรอกไม่ถูกต้อง, กรุณาเลือกใหม่อีกครั้ง")
+            preferredLanguage()
+        else:
+            choice = ""
+            if language == 1:
+                choice = "พากย์ไทย"
+            elif language == 2:
+                choice = "Soundtrack"
+            return choice
+    preferred_language = preferredLanguage()
+
     # 6. คำนวณราคาตั๋วโดยใช้ calculate_price
+    price = calculate_price(userMovieChoice["ticket_price"],userMovieChoice["genre"])
     # 7. แสดงผลการซื้อบัตร พร้อมชื่อหนัง, เสียงที่เลือก, ราคาตั๋ว
+    print(f"แสดงผลการซื้อบัตร...\nชื่อหนัง : {userMovieChoice["movie_name"]}\nเสียงที่เลือก : {preferred_language}\nราคาตั๋ว : {price}")
 
 def main():
     # TODO: สร้างรายการหนังเป็น list ของ dict โดยเก็บข้อมูล movie_name, ticket_price, genre, age_restriction
@@ -64,20 +83,22 @@ def main():
     # 2. ซื้อตั๋วหนัง
     print("กด 1 : แสดงหนังทั้งหมด | กด 2 : ซื้อตั๋วหนัง")
     # รับค่าตัวเลือกเมนูจากผู้ใช้ 
-    menu = input("เลือกเมนู: ")
-
+    menu = int(input("เลือกเมนู: "))
     # TODO: ตรวจสอบเมนูที่เลือก 
     # ถ้าเลือก 1 ให้เรียก show_movies พร้อมส่ง movies
     # ถ้าเลือก 2 ให้เรียก buy_ticket พร้อมส่ง movies
     # ถ้าเลือกอื่น ให้แสดงข้อความว่าเมนูไม่ถูกต้อง
-    if menu == 1:
-        show_movies()
-    elif menu == 2:
-        buy_ticket()
-    else:
-        print("เมนูไม่ถูกต้อง")
-        main()
-
+    def menuCheck ():
+        if menu not in [1,2]:
+            print("ข้อมูลที่กรอกไม่ถูกต้อง, กรุณาเลือกใหม่อีกครั้ง")
+            menuCheck()
+        else:
+            if menu == 1:
+                show_movies(movies)
+                
+            elif menu == 2:
+                buy_ticket(movies)
+    menuCheck()
 # เรียก main เพื่อเริ่มโปรแกรม
-
+main()
 
